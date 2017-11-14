@@ -1,8 +1,8 @@
 FROM alpine:3.4
 
-MAINTAINER Elisiano Petrini "elisiano@gmail.com"
+MAINTAINER Hacking Team "hackingteam@gmail.com"
 
-ENV NGINX_VERSION 1.11.8
+ENV NGINX_VERSION 1.13.6
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
@@ -172,7 +172,10 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+COPY owasp-modsecurity-crs /etc/nginx/owasp-modsecurity-crs
+COPY modsecurity.conf /etc/nginx/modsecurity.conf
+COPY unicode.mapping /etc/nginx/unicode.mapping
+COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
 
