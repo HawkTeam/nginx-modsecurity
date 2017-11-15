@@ -1,8 +1,8 @@
-FROM alpine:3.4
+FROM alpine
 
 MAINTAINER Hacking Team "hackingteam@gmail.com"
 
-ENV NGINX_VERSION 1.11.8
+ENV NGINX_VERSION 1.12.2
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
@@ -84,11 +84,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		yajl \
 		libstdc++ \
 	&& curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
-	&& curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
-	&& gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
-	&& rm -r "$GNUPGHOME" nginx.tar.gz.asc \
 	&& mkdir -p /usr/src \
 	&& tar -zxC /usr/src -f nginx.tar.gz \
 	&& rm nginx.tar.gz \
@@ -172,6 +167,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY owasp-modsecurity /etc/nginx/owasp-modsecurity
+COPY modsecurity.conf /etc/nginx/modsecurity.conf
+COPY modsec_includes.conf.conf /etc/nginx/modsec_includes.conf.conf
 COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
