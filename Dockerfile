@@ -169,7 +169,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY owasp-modsecurity /etc/nginx/owasp-modsecurity
 COPY modsecurity.conf /etc/nginx/modsecurity.conf
-COPY modsec_includes.conf.conf /etc/nginx/modsec_includes.conf.conf
+COPY modsec_includes.conf /etc/nginx/modsec_includes.conf.conf
 COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
